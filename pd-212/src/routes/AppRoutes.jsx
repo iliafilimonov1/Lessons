@@ -9,7 +9,7 @@ import CardDetails from "../pages/CardDetails";
 const routes = [
   { path: "/", element: <Home /> },
   { path: "cards", element: <Cards /> },
-  { path: "cards/:id", element: <CardDetails /> },
+  { path: "cards/:alias", element: <CardDetails /> },
 ];
 
 /**

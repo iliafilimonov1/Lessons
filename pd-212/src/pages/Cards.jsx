@@ -5,13 +5,13 @@ import { useNavigate } from "react-router-dom";
 
 const Cards = () => {
   const navigate = useNavigate();
-  
+
   /**
    * Обработчик клика по карточке.
    * @param {object} data - Данные карточки.
    */
   const handleClick = (data) => {
-    navigate(`/cards/${data?.id}`, { state: data });
+    navigate(`/cards/${data?.alias}`, { state: data });
   };
 
   return (

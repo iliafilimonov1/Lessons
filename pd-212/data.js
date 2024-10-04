@@ -3,6 +3,7 @@ export const data = [
   {
     id: "0",
     name: "Poäng Armchair",
+    alias: "poäng-armchair",
     category: "Chair",
     description:
       "A comfortable armchair with a unique design, perfect for relaxation.",
@@ -33,6 +34,7 @@ export const data = [
   {
     id: "1",
     name: "MALM Bed Frame",
+    alias: "malm-bed-frame",
     category: "Bed",
     description:
       "A sturdy bed frame with a minimalist design, available in various sizes.",
@@ -63,6 +65,7 @@ export const data = [
   {
     id: "2",
     name: "TÄRENDÖ Bench",
+    alias: "tarendo-bench",
     category: "Bench",
     description:
       "A simple and practical bench suitable for both indoor and outdoor use.",
