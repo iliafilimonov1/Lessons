@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import Modal from "../Modal/Modal";
+import useDisclosure from "../../../hooks/useDisclosure";
 
 /** Массив пунктов меню */
 const navItems = [
@@ -13,8 +14,11 @@ const navItems = [
  * @returns {JSX.Element} Элемент header.
  */
 const Header = () => {
-  // Состояние для показа/скрытия модалки для входа
-  const [isOpenSign, setOpenSign] = useState(false);
+  // Модалка для входа
+  const signIn = useDisclosure();
+
+  // Модалка для регистрации
+  const signUp = useDisclosure();
 
   // Получаем информацию из адресной строки
   const location = useLocation();
@@ -66,23 +70,62 @@ const Header = () => {
           <div id="buttons-wrapper" className="inline-flex items-center">
             <button
               type="button"
-              onClick={() => setOpenSign(true)}
+              onClick={signIn?.onOpen}
               className="border-2 text-indigo-500 border-indigo-500 font-medium py-2 px-4 rounded"
             >
               Sign in
             </button>
             <button
+              onClick={signUp?.onOpen}
               type="button"
               className="ml-3 border-2 border-indigo-500 bg-indigo-500 text-white font-medium py-2 px-4 rounded"
             >
               Sign up
             </button>
           </div>
-          {isOpenSign && (
+          {signIn?.isOpen && (
             <Modal
-              onClose={() => setOpenSign(false)}
+              onClose={signIn?.onClose}
               title="Вход в приложение"
-              isOpen={isOpenSign}
+              isOpen={signIn?.isOpen}
+            >
+              <form action="#">
+                <div className="flex flex-col">
+                  <div className="mb-4">
+                    <label htmlFor="full_name">Your login</label>
+                    <input
+                      type="text"
+                      name="login"
+                      className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                      defaultValue=""
+                    />
+                  </div>
+
+                  <div className="mb-4">
+                    <label htmlFor="email">Email Address</label>
+                    <input
+                      type="email"
+                      name="email"
+                      className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                      defaultValue=""
+                      placeholder="email@domain.com"
+                    />
+                  </div>
+
+                  <div className="mb-4 flex justify-end">
+                    <button className="border-2 border-indigo-500 bg-indigo-500 text-white font-medium py-2 px-4 rounded">
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </Modal>
+          )}
+          {signUp?.isOpen && (
+            <Modal
+              onClose={signUp?.onClose}
+              title="Регистрация в приложении"
+              isOpen={signUp?.isOpen}
             >
               <form action="#">
                 <div className="flex flex-col">

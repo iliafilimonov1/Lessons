@@ -18,19 +18,6 @@ const Modal = ({ isOpen, title, onClose, children }) => {
   const modalRef = useRef(null);
 
   useEffect(() => {
-    const handleOutsideClick = (event) => {
-      // Проверяем, был ли клик вне модального окна
-      if (modalRef?.current && !modalRef?.current?.contains(event?.target)) {
-        // Закрываем модалку
-        onClose();
-      }
-    };
-
-    // Обработчик нажатия клавиши Esc
-    const handleKeyPress = (event) => {
-      if (event?.key === "Escape") onClose();
-    };
-
     // Если модально окно открыто и код выполняется на клиенте
     if (isOpen && typeof window !== "undefined") {
       // Добавляем слушатель события mousedown для закрытия модалки по клику вне
@@ -51,13 +38,27 @@ const Modal = ({ isOpen, title, onClose, children }) => {
     };
   }, [isOpen, onClose]);
 
+  // Обработчик клика за пределами модального окна
+  const handleOutsideClick = (event) => {
+    // Проверяем, был ли клик вне модального окна
+    if (modalRef?.current && !modalRef?.current?.contains(event?.target)) {
+      // Закрываем модалку
+      onClose();
+    }
+  };
+
+  // Обработчик нажатия клавиши Esc
+  const handleKeyPress = (event) => {
+    if (event?.key === "Escape") onClose();
+  };
+
   return (
     isOpen &&
     createPortal(
       <div className="fixed z-10 top-0 left-0 w-full h-full flex justify-center items-center bg-opacity-70 bg-black">
         <div
           ref={modalRef}
-          className="modal bg-white p-4 rounded shadow-md w-96"
+          className="modal bg-white p-4 rounded shadow-md w-2/6"
         >
           <header className="flex justify-between mb-8">
             {title && <h2 className="text-3xl">{title}</h2>}
@@ -77,6 +78,6 @@ const Modal = ({ isOpen, title, onClose, children }) => {
   );
 };
 
-Modal.dislpayName = 'Modal';
+Modal.dislpayName = "Modal";
 
 export default Modal;
