@@ -1,17 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Card from "../components/ui/Card/Card";
-import { data } from "../../data";
 import { useNavigate } from "react-router-dom";
 
 const Cards = () => {
+  // Состояние для хранения данных по карточкам
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/products")
+      .then((response) => response.json())
+      .then((json) => setData(json));
+  }, []);
+
+  // хук react-router-dom для навигации по страницам
   const navigate = useNavigate();
 
   /**
    * Обработчик клика по карточке.
-   * @param {object} data - Данные карточки.
+   * @param {object} cardData - Данные карточки.
    */
-  const handleClick = (data) => {
-    navigate(`/cards/${data?.alias}`, { state: data });
+  const handleClick = (cardData) => {
+    navigate(`/cards/${cardData?.alias}`, { state: cardData });
   };
 
   return (
