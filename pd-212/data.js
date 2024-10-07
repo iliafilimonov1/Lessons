@@ -1,4 +1,3 @@
-// Данные карточек
 export const data = [
   {
     id: "0",
@@ -94,6 +93,7 @@ export const data = [
   {
     id: "3",
     name: "HEMNES Bed Frame",
+    alias: "hemnes-bed-frame",
     category: "Bed",
     description:
       "A classic bed frame with storage options and a timeless design.",
@@ -123,6 +123,7 @@ export const data = [
   {
     id: "4",
     name: "FLISAT Children's Bench",
+    alias: "flisat-childrens-bench",
     category: "Children's Furniture",
     description:
       "A small, sturdy bench designed specifically for children's use.",
@@ -151,6 +152,7 @@ export const data = [
   {
     id: "5",
     name: "BRIMNES Bed Frame with Storage",
+    alias: "brimnes-bed-frame-storage",
     category: "Bed",
     description:
       "A practical bed frame with ample storage space underneath, ideal for smaller bedrooms.",
@@ -179,6 +181,7 @@ export const data = [
   {
     id: "6",
     name: "FRIHETEN Sofa Bed",
+    alias: "friheten-sofa-bed",
     category: "Sofa Beds",
     description:
       "A versatile sofa bed with storage space and a comfortable design, perfect for smaller living spaces.",
@@ -208,6 +211,7 @@ export const data = [
   {
     id: "7",
     name: "SUNDVIK Children's Bed",
+    alias: "sundvik-childrens-bed",
     category: "Children's Furniture",
     description:
       "A sturdy and safe bed designed for children, with a timeless design that grows with them.",
