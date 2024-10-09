@@ -1,5 +1,6 @@
 import React from "react";
 import Modal from "../../ui/Modal/Modal";
+import useForm from "../../../hooks/useForm";
 
 /**
  * Модалка для регистрации.
@@ -9,9 +10,37 @@ import Modal from "../../ui/Modal/Modal";
  * @returns {JSX.Element} Элемент модалки.
  */
 const SignUpModal = ({ isOpen, onClose }) => {
+  // Кастомный хук для обработки и валидации полей
+  const { formValues, formErrors, handleChange, resetForm } = useForm({
+    login: "",
+    email: "",
+  });
+
+  // Обработчик закрытия модального окна и сброса данных формы
+  const handleCloseModal = () => {
+    onClose && onClose();
+    resetForm && resetForm();
+  };
+
+  // Функция для отправки данных
+  const handleSubmit = (event) => {
+    // Предотвращаем отправку данных
+    event?.preventDefault();
+
+    // Очищаем форму
+    resetForm && resetForm();
+
+    // Закрываем модалку
+    onClose && onClose();
+  };
+
   return (
-    <Modal onClose={onClose} title="Регистрация в приложении" isOpen={isOpen}>
-      <form action="#">
+    <Modal
+      onClose={handleCloseModal}
+      title="Регистрация в приложении"
+      isOpen={isOpen}
+    >
+      <form onSubmit={handleSubmit} action="#">
         <div className="flex flex-col">
           <div className="mb-4">
             <label htmlFor="full_name">Your login</label>
@@ -19,8 +48,15 @@ const SignUpModal = ({ isOpen, onClose }) => {
               type="text"
               name="login"
               className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-              defaultValue=""
+              value={formValues?.login}
+              data-validate="text"
+              onChange={handleChange}
+              placeholder="Your login"
+              required
             />
+            <span className="text-red-500 text-xs italic mt-2">
+              {formErrors?.login}
+            </span>
           </div>
 
           <div className="mb-4">
@@ -29,9 +65,15 @@ const SignUpModal = ({ isOpen, onClose }) => {
               type="email"
               name="email"
               className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-              defaultValue=""
-              placeholder="email@domain.com"
+              value={formValues?.email}
+              data-validate="email"
+              onChange={handleChange}
+              placeholder="Your email"
+              required
             />
+            <span className="text-red-500 text-xs italic mt-2">
+              {formErrors?.email}
+            </span>
           </div>
 
           <div className="mb-4 flex justify-end">
