@@ -12,7 +12,7 @@ import { LiaTimesSolid } from "react-icons/lia";
  */
 const Modal = ({ isOpen, title, onClose, children }) => {
   /* Обработка закрытия модалки по клику на крестик */
-  const handleClose = () => onClose();
+  // const handleClose = () => onClose();
 
   // Создаем ссылку на DOM-элемент модального окна
   const modalRef = useRef(null);
@@ -63,7 +63,7 @@ const Modal = ({ isOpen, title, onClose, children }) => {
           <header className="flex justify-between mb-8">
             {title && <h2 className="text-3xl">{title}</h2>}
             <button
-              onClick={handleClose}
+              onClick={onClose}
               className="text-gray-600 hover:text-gray-800 w-10 h-10 inline-flex justify-center items-center text-xl"
             >
               <LiaTimesSolid />
