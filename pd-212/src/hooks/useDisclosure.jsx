@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 /**
  * Кастомный хук для контроля открытия/закрытия компонента
