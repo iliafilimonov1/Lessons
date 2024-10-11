@@ -1,9 +1,13 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import useProducts from "../store/useProducts";
 
 const CardDetails = () => {
   // Получение данных о карточке
   const { state } = useLocation();
+
+  // Обработчик добавления товара в корзину
+  const { addToCart } = useProducts();
 
   return (
     <section className="card-details">
@@ -48,7 +52,7 @@ const CardDetails = () => {
               </div>
             )}
             <div className="text-lg font-bold mb-2">{state?.price}$</div>
-            <button className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded">
+            <button onClick={() => addToCart(state)} className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded">
               Add to Cart
             </button>
           </div>
