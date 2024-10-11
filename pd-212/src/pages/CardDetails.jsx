@@ -1,13 +1,27 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import useProducts from "../store/useProducts";
+import Alert from "../components/ui/Alert/Alert";
+import useDisclosure from "../hooks/useDisclosure";
 
 const CardDetails = () => {
+  // Показ/скрытие компонента Alert
+  const alertData = useDisclosure();
+
   // Получение данных о карточке
   const { state } = useLocation();
 
-  // Обработчик добавления товара в корзину
+  // Достаем метод добавления из стора
   const { addToCart } = useProducts();
+
+  // Обработчик добавления товара в корзину
+  const handleAddToCart = () => {
+    // Добавляем товар в стор
+    addToCart(state);
+
+    // Уведомляем пользователя
+    alertData?.onOpen();
+  };
 
   return (
     <section className="card-details">
@@ -52,12 +66,22 @@ const CardDetails = () => {
               </div>
             )}
             <div className="text-lg font-bold mb-2">{state?.price}$</div>
-            <button onClick={() => addToCart(state)} className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded">
+            <button
+              onClick={handleAddToCart}
+              className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded"
+            >
               Add to Cart
             </button>
           </div>
         </div>
       </div>
+      <Alert
+        variant="success"
+        title="Добавление товара"
+        subtitle="Товар успешно добавлен!"
+        isOpen={alertData?.isOpen}
+        onClose={alertData?.onClose}
+      />
     </section>
   );
 };

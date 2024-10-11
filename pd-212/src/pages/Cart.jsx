@@ -3,15 +3,29 @@ import { LiaTimesSolid } from "react-icons/lia";
 // import Alert from "../components/ui/Alert/Alert";
 import { Link } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
+import useDisclosure from "../hooks/useDisclosure";
+import Alert from "../components/ui/Alert/Alert";
 
 const Cart = () => {
+  // Показ/скрытие компонента Alert
+  const alertData = useDisclosure();
+
   // Получение данных из стора (корзина товаров)
   const { cart, deleteFromCart } = useProducts();
+
+  // Обработчик удаления товара и уведомления пользователя
+  const handleDeleteFromCart = (productId) => {
+    // Удаляем товар из стора
+    deleteFromCart(productId);
+
+    // Уведомляем пользователя
+    alertData?.onOpen();
+  };
 
   console.log("товары в корзине", cart);
 
   return (
-    <section className="cart">
+    <section className="cart min-h-80">
       <div className="max-w-7xl mx-auto px-2">
         <Link
           to="/cards"
@@ -38,7 +52,10 @@ const Cart = () => {
                 key={item?.id}
                 className="border rounded shadow p-4 max-w-3xl relative"
               >
-                <button onClick={() => deleteFromCart(item?.id)} className="absolute top-2 right-2">
+                <button
+                  onClick={() => handleDeleteFromCart(item?.id)}
+                  className="absolute top-2 right-2"
+                >
                   <LiaTimesSolid />
                 </button>
                 <div className="flex items-start">
@@ -60,6 +77,13 @@ const Cart = () => {
           </div>
         )}
       </div>
+      <Alert
+        variant="info"
+        title="Удаление товара"
+        subtitle="Товар был удален!"
+        isOpen={alertData?.isOpen}
+        onClose={alertData?.onClose}
+      />
     </section>
   );
 };
