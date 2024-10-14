@@ -222,5 +222,6 @@
       "isFavorite": false,
       "cartQuantity": 1
     }
-  ]
+  ],
+  "users": []
 }
