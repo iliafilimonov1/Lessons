@@ -26,7 +26,7 @@ const Cards = () => {
   return (
     <main id="app" className="py-8">
       <div className="max-w-7xl mx-auto px-2">
-        <h3>Cards page</h3>
+        <h2 className="text-3xl font-bold">Cards page</h2>
         <div className="flex flex-wrap justify-between">
           {data?.length > 0 &&
             data?.map((productInfo) => {
