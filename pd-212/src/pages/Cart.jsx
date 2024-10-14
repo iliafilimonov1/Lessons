@@ -1,10 +1,10 @@
 import useProducts from "../store/useProducts";
 import { LiaTimesSolid } from "react-icons/lia";
-// import Alert from "../components/ui/Alert/Alert";
 import { Link } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import useDisclosure from "../hooks/useDisclosure";
 import Alert from "../components/ui/Alert/Alert";
+import Stepper from "../components/ui/Stepper/Stepper";
 
 const Cart = () => {
   // Показ/скрытие компонента Alert
@@ -21,8 +21,6 @@ const Cart = () => {
     // Уведомляем пользователя
     alertData?.onOpen();
   };
-
-  console.log("товары в корзине", cart);
 
   return (
     <section className="cart min-h-80">
@@ -70,6 +68,11 @@ const Cart = () => {
                     <span className="text-lg font-bold mb-4">
                       {item?.price}$
                     </span>
+                    <Stepper
+                      step={1}
+                      id={item?.id}
+                      quantityValue={item?.quantity}
+                    />
                   </div>
                 </div>
               </div>
