@@ -1,20 +1,24 @@
 import React from "react";
 import Modal from "../../ui/Modal/Modal";
 import useForm from "../../../hooks/useForm";
+import { useAuth } from "../../../hooks/useAuth";
 
 /**
- * Модалка для регистрации.
+ * Модалка для входа.
  * @param {Object} props - Пропсы компонента.
  * @param {boolean} props.isOpen - Состояние открытости модалки.
  * @param {Function} props.onClose - Функция закрытия модалки.
  * @returns {JSX.Element} Элемент модалки.
  */
-const SignUpModal = ({ isOpen, onClose }) => {
+const SignIn = ({ isOpen, onClose }) => {
   // Кастомный хук для обработки и валидации полей
   const { formValues, formErrors, handleChange, resetForm } = useForm({
     login: "",
-    email: "",
+    password: "",
   });
+
+  // Кастомный хук для входа
+  const { onLogin } = useAuth();
 
   // Обработчик закрытия модального окна и сброса данных формы
   const handleCloseModal = () => {
@@ -27,6 +31,9 @@ const SignUpModal = ({ isOpen, onClose }) => {
     // Предотвращаем отправку данных
     event?.preventDefault();
 
+    // Передача данных в хук useAuth
+    onLogin(formValues);
+
     // Очищаем форму
     resetForm && resetForm();
 
@@ -35,12 +42,8 @@ const SignUpModal = ({ isOpen, onClose }) => {
   };
 
   return (
-    <Modal
-      onClose={handleCloseModal}
-      title="Регистрация в приложении"
-      isOpen={isOpen}
-    >
-      <form onSubmit={handleSubmit} action="#">
+    <Modal onClose={handleCloseModal} title="Вход" isOpen={isOpen}>
+      <form action="#" onSubmit={handleSubmit}>
         <div className="flex flex-col">
           <div className="mb-4">
             <label htmlFor="full_name">Your login</label>
@@ -60,24 +63,24 @@ const SignUpModal = ({ isOpen, onClose }) => {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="email">Email Address</label>
+            <label htmlFor="email">Your password</label>
             <input
-              type="email"
-              name="email"
-              className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-              value={formValues?.email}
-              data-validate="email"
+              type="password"
+              name="password"
               onChange={handleChange}
-              placeholder="Your email"
+              className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+              value={formValues?.password}
+              data-validate="password"
+              placeholder="Yout password"
               required
             />
             <span className="text-red-500 text-xs italic mt-2">
-              {formErrors?.email}
+              {formErrors?.password}
             </span>
           </div>
 
           <div className="mb-4 flex justify-end">
-            <button className="border-2 border-indigo-500 bg-indigo-500 text-white font-medium py-2 px-4 rounded">
+            <button className="border-2 border-indigo-500 bg-indigo-500 text-white font-medium py-2 px-4 rounded x">
               Submit
             </button>
           </div>
@@ -87,6 +90,6 @@ const SignUpModal = ({ isOpen, onClose }) => {
   );
 };
 
-SignUpModal.displayName = "SignUpModal";
+SignIn.displayName = "SignIn";
 
-export default SignUpModal;
+export default SignIn;

@@ -1,17 +1,21 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
 import Home from "../pages/Home";
 import Cards from "../pages/Cards";
 import CardDetails from "../pages/CardDetails";
 import Cart from "../pages/Cart";
+import Forbidden from "../pages/Forbidden";
+import PrivateRoute from "../routes/PrivateRoute";
+import { useAuth } from "../hooks/useAuth";
 
 /** Массив роутов приложения */
 const routes = [
-  { path: "/", element: <Home /> },
-  { path: "cards", element: <Cards /> },
-  { path: "cards/:alias", element: <CardDetails /> },
-  { path: "cart", element: <Cart /> },
+  { path: "/home", element: <PrivateRoute element={<Home />} /> },
+  { path: "cards", element: <PrivateRoute element={<Cards />} /> },
+  { path: "cards/:alias", element: <PrivateRoute element={<CardDetails />} /> },
+  { path: "cart", element: <PrivateRoute element={<Cart />} /> },
+  { path: "/forbidden", element: <Forbidden /> },
 ];
 
 /**
@@ -19,26 +23,26 @@ const routes = [
  * @param {Array} routes - Массив объектов роута.
  * @returns {JSX.Element} JSX элемент роута.
  */
-const renderRoutes = (routes) => {
-  if (!routes?.length) {
-    return null;
-  }
-
-  return routes?.map(({ path, element, children }) => (
-    <Route key={path} path={path} element={element}>
-      {children && renderRoutes(children)}
-    </Route>
-  ));
-};
+const renderRoute = ({ path, element, children }) => (
+  <Route key={path} path={path} element={element}>
+    {children && children?.map(renderRoute)}
+  </Route>
+);
 
 /** Корневой компонент приложения с роутами */
-const AppRoutes = () => (
-  <Routes>
-    <Route path="/" element={<MainLayout />}>
-      {renderRoutes(routes)}
-    </Route>
-  </Routes>
-);
+const AppRoutes = () => {
+  // Хук для проверки авторизации
+  const { user } = useAuth();
+
+  return (
+    <Routes>
+      <Route path="/" element={<MainLayout />}>
+        {user && <Route path="/" element={<Navigate to="/home" replace />} />}
+        {routes?.map(renderRoute)}
+      </Route>
+    </Routes>
+  );
+};
 
 // Или так без компонента MainLayout
 /** Корневой компонент приложения с роутами */
