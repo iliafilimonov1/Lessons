@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-// import Modal from "../Modal/Modal";
+import Modal from "../Modal/Modal";
 import SignIn from "../../auth/SignIn/SignIn";
 import SignUp from "../../auth/SignUp/SignUp";
 import useDisclosure from "../../../hooks/useDisclosure";
@@ -26,6 +26,9 @@ const Header = () => {
   // Модалка для регистрации
   const signUp = useDisclosure();
 
+  // Модалка подтверждения выхода
+  const logoutModal = useDisclosure();
+
   // Получаем информацию из адресной строки
   const location = useLocation();
 
@@ -47,6 +50,12 @@ const Header = () => {
 
   // Обработчик открытия корзины товара
   const handleOpenCart = () => navigate("/cart");
+
+  // Обработчик для модального окна с предупреждением подтверждения действий
+  const handleConfirmApprove = () => {
+    logoutModal?.onClose();
+    onLogout();
+  };
 
   return (
     <header className="bg-white shadow fixed top-0 left-0 right-0 z-10">
@@ -133,7 +142,7 @@ const Header = () => {
               <button
                 type="button"
                 className="ml-3 border-2 border-indigo-500 bg-indigo-500 text-white font-medium py-2 px-4 rounded"
-                onClick={onLogout}
+                onClick={logoutModal?.onOpen}
               >
                 Logout
               </button>
@@ -141,6 +150,32 @@ const Header = () => {
           </div>
           <SignIn isOpen={signIn.isOpen} onClose={signIn.onClose} />
           <SignUp isOpen={signUp?.isOpen} onClose={signUp?.onClose} />
+
+          <Modal
+            isOpen={logoutModal?.isOpen}
+            onClose={logoutModal?.onClose}
+            title="Подтверждение действия"
+          >
+            <p className="text-gray-600 text-md mb-4">
+              Вы действительно хотите выйти из системы ?
+            </p>
+
+            <div className="mb-4 flex justify-end">
+              <button
+                type="button"
+                onClick={logoutModal?.onClose}
+                className="border-2 text-indigo-500 border-indigo-500 font-medium py-2 px-4 rounded"
+              >
+                Cancel
+              </button>
+              <button
+                className="ml-3 border-2 border-indigo-500 bg-indigo-500 text-white font-medium py-2 px-4 rounded"
+                onClick={handleConfirmApprove}
+              >
+                Submit
+              </button>
+            </div>
+          </Modal>
         </div>
       </div>
     </header>

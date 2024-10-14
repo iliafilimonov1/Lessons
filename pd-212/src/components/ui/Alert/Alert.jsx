@@ -60,7 +60,7 @@ const Alert = ({
     if (isOpen) {
       const timer = setTimeout(() => {
         onClose();
-      }, 5000);
+      }, 3000);
       // Очистка таймера при размонтировании компонента или изменении `isOpen`
       return () => clearTimeout(timer);
     }
