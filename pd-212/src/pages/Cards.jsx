@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Card from "../components/ui/Card/Card";
 import { useNavigate } from "react-router-dom";
+import useProducts from "../store/useProducts";
 
 const Cards = () => {
-  // Состояние для хранения данных по карточкам
-  const [data, setData] = useState(null);
+  // Достаем из стора продукты и метод получения данных
+  const { products, getProducts } = useProducts();
 
   useEffect(() => {
-    fetch("http://localhost:3000/products")
-      .then((response) => response.json())
-      .then((json) => setData(json));
+    getProducts();
   }, []);
 
   // хук react-router-dom для навигации по страницам
@@ -28,8 +27,8 @@ const Cards = () => {
       <div className="max-w-7xl mx-auto px-2">
         <h2 className="text-3xl font-bold">Cards page</h2>
         <div className="flex flex-wrap justify-between">
-          {data?.length > 0 &&
-            data?.map((productInfo) => {
+          {products?.length > 0 &&
+            products?.map((productInfo) => {
               return (
                 <Card
                   onCardClick={() => handleClick(productInfo)}

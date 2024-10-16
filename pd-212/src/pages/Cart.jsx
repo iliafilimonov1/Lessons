@@ -10,8 +10,8 @@ const Cart = () => {
   // Показ/скрытие компонента Alert
   const alertData = useDisclosure();
 
-  // Получение данных из стора (корзина товаров)
-  const { cart, deleteFromCart } = useProducts();
+  // Получение данных из стора: корзина, удаление, обновление товаров
+  const { cart, deleteFromCart, updateCartQuantity } = useProducts();
 
   // Обработчик удаления товара и уведомления пользователя
   const handleDeleteFromCart = (productId) => {
@@ -71,7 +71,10 @@ const Cart = () => {
                     <Stepper
                       step={1}
                       id={item?.id}
-                      quantityValue={item?.quantity}
+                      onQuantityUpdate={(newQuantity) =>
+                        updateCartQuantity(newQuantity, item?.id)
+                      }
+                      quantityValue={item?.cartQuantity}
                     />
                   </div>
                 </div>

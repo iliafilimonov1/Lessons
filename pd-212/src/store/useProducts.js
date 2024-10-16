@@ -10,13 +10,30 @@ const useProducts = create((set, get) => {
   // Загрузка товаров корзины из localStorage.
   const storedCart = JSON?.parse(localStorage?.getItem("cart")) || [];
 
+  // Функция для получения данных
+  const getProducts = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/products");
+
+      if (!response?.ok) {
+        throw new Error("Failed to fetch products");
+      }
+
+      const data = await response?.json();
+
+      set({ products: data });
+    } catch (error) {
+      console.error("Error fetching products");
+    }
+  };
+
   /**
    * Функция добавления товаров в корзину
    * @param {Object} product - Данные товара.
    * @returns {void}
    */
   const addToCart = (product) => {
-    const updatedCart = [...get().cart, { ...product, quantity: 1 }];
+    const updatedCart = [...get().cart, { ...product }];
 
     localStorage?.setItem("cart", JSON?.stringify(updatedCart));
 
@@ -31,9 +48,36 @@ const useProducts = create((set, get) => {
    * @returns {void}
    */
   const deleteFromCart = (productId) => {
-    const updatedCart = get()?.cart?.filter(product => product?.id !== productId);
+    const updatedCart = get()?.cart?.filter(
+      (product) => product?.id !== productId
+    );
 
     localStorage?.setItem("cart", JSON?.stringify(updatedCart));
+
+    set({ cart: updatedCart });
+  };
+
+  // Общее количество добавленных ранее товаров в корзину.
+  const productsQuantity = () => {
+    return get().cart?.reduce((total, product) => {
+      return total + product?.cartQuantity;
+    }, 0);
+  };
+
+  /**
+   * Функция увеличения/уменьшения количества товара.
+   * @param {string} cartQuantity - Значение, на которое необходимо обновить кол-во.
+   * @param {string} productId - id товара.
+   */
+  const updateCartQuantity = (cartQuantity, productId) => {
+    const updatedCart = get()?.cart?.map((item) => {
+      if (item?.id === productId) {
+        return { ...item, cartQuantity };
+      }
+      return item;
+    });
+
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
 
     set({ cart: updatedCart });
   };
@@ -41,8 +85,11 @@ const useProducts = create((set, get) => {
   return {
     products,
     cart: storedCart,
+    getProducts,
     addToCart,
-    deleteFromCart
+    deleteFromCart,
+    productsQuantity,
+    updateCartQuantity,
   };
 });
 
