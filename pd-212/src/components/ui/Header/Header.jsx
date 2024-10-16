@@ -3,8 +3,10 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Modal from "../Modal/Modal";
 import SignIn from "../../auth/SignIn/SignIn";
 import SignUp from "../../auth/SignUp/SignUp";
+import Image from "../Image/Image";
 import useDisclosure from "../../../hooks/useDisclosure";
 import { useAuth } from "../../../hooks/useAuth";
+import useProducts from "../../../store/useProducts";
 
 /** Массив пунктов меню */
 const navItems = [
@@ -17,6 +19,10 @@ const navItems = [
  * @returns {JSX.Element} Элемент header.
  */
 const Header = () => {
+  // Достаем из стора общее кол-во добавленных товаров
+  const { productsQuantity } = useProducts();
+  const cartCount = productsQuantity();
+
   // Кастомный хук для проверки данных пользователя, выхода
   const { user, onLogout } = useAuth();
 
@@ -63,8 +69,9 @@ const Header = () => {
         <div className="relative flex justify-between h-16">
           <nav className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
             <NavLink to="/" className="flex-shrink-0 flex items-center">
-              <img
+              <Image
                 className="w-36 object-contain"
+                isCritical={true}
                 src="../../../assets/header/logo.svg"
                 alt="Logo"
               />
@@ -111,11 +118,11 @@ const Header = () => {
                   <path d="M17 24H21V28H17zM24 24H28V28H24zM17 17H21V21H17zM24 17H28V21H24z"></path>
                   <path d="M28,11h-6V7c0-1.7-1.3-3-3-3h-6c-1.7,0-3,1.3-3,3v4H4c-0.6,0-1,0.4-1,1c0,0.1,0,0.1,0,0.2l1.9,12.1c0.1,1,1,1.7,2,1.7H15v-2	H6.9L5.2,13H28V11z M12,7c0-0.6,0.4-1,1-1h6c0.6,0,1,0.4,1,1v4h-8V7z"></path>
                 </svg>
-                {/* {!!cartCount && (
-                <span className="w-5 h-5 text-xs px-1 leading-5 text-white inline-flex items-center justify-center bg-indigo-500 rounded-full absolute top-[-4px] right-[-4px]">
-                  {cartCount}
-                </span>
-              )} */}
+                {!!cartCount && (
+                  <span className="w-5 h-5 text-xs px-1 leading-5 text-white inline-flex items-center justify-center bg-indigo-500 rounded-full absolute top-[-4px] right-[-4px]">
+                    {cartCount}
+                  </span>
+                )}
               </button>
             </div>
           )}
@@ -154,7 +161,7 @@ const Header = () => {
           <Modal
             isOpen={logoutModal?.isOpen}
             onClose={logoutModal?.onClose}
-            title="Подтверждение действия"
+            title="Подтвердите действия"
           >
             <p className="text-gray-600 text-md mb-4">
               Вы действительно хотите выйти из системы ?
@@ -164,7 +171,7 @@ const Header = () => {
               <button
                 type="button"
                 onClick={logoutModal?.onClose}
-                className="border-2 text-indigo-500 border-indigo-500 font-medium py-2 px-4 rounded"
+                className="border-2 border-rose-500 bg-rose-500 text-white font-medium py-2 px-4 rounded"
               >
                 Cancel
               </button>
