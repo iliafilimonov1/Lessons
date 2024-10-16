@@ -1,5 +1,6 @@
 import useProducts from "../store/useProducts";
 import { LiaTimesSolid } from "react-icons/lia";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import useDisclosure from "../hooks/useDisclosure";
@@ -7,6 +8,9 @@ import Alert from "../components/ui/Alert/Alert";
 import Stepper from "../components/ui/Stepper/Stepper";
 
 const Cart = () => {
+  // Хук для навигации по страницам
+  const navigate = useNavigate();
+
   // Показ/скрытие компонента Alert
   const alertData = useDisclosure();
 
@@ -37,7 +41,10 @@ const Cart = () => {
             {cart?.length ? "Previously saved products" : "Cart is empty"}
           </h2>
           {cart?.length > 0 && (
-            <button className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded">
+            <button
+              onClick={() => navigate(`/cart/checkout`)}
+              className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded"
+            >
               Checkout
             </button>
           )}
