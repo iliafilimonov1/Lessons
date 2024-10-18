@@ -31,15 +31,47 @@ export const AuthProvider = ({ children }) => {
   // Регистрация пользователя
   const onRegister = async (userData) => {
     try {
+      // const createResponse = await fetch("http://localhost:3000/users", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(userData),
+      // });
+
+      // if (!createResponse.ok) {
+      //   throw new Error("Ошибка регистрации пользователя");
+      // }
+
+      // const createdUser = await createResponse?.json();
+      // Получение всех пользователей
+      const response = await fetch("http://localhost:3000/users");
+
+      const users = await response?.json();
+
+      if (!response?.ok) {
+        throw new Error("Ошибка при запросе на сервер");
+      }
+
+      // Проверяем, существует ли уже суперпользователь
+      const adminExists = users?.some((user) => user?.role === "admin");
+
+      // Определяем роль нового пользователя
+      const newUser = {
+        ...userData,
+        role: adminExists ? "user" : "admin",
+      };
+
+      // Отправка запроса на создание нового пользователя
       const createResponse = await fetch("http://localhost:3000/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(userData),
+        body: JSON?.stringify(newUser),
       });
 
-      if (!createResponse.ok) {
+      if (!createResponse?.ok) {
         throw new Error("Ошибка регистрации пользователя");
       }
 
@@ -53,6 +85,8 @@ export const AuthProvider = ({ children }) => {
         user: createdUser,
         ...tokens,
       };
+
+      onLogin(createdUser); // Выполняем вход после регистрации
 
       localStorage?.setItem("authData", JSON?.stringify(authData));
 

@@ -12,6 +12,7 @@ import useProducts from "../../../store/useProducts";
 const navItems = [
   { name: "Home", path: "/home" },
   { name: "Cards", path: "/cards" },
+  { name: "Admin", path: "/admin" },
 ];
 
 /**
@@ -77,23 +78,30 @@ const Header = () => {
               />
             </NavLink>
             <div className="hidden sm:ml-8 sm:flex sm:space-x-8">
-              {user &&
-                navItems?.length > 0 &&
-                navItems?.map((item) => {
-                  return (
-                    <NavLink
-                      to={item?.path}
-                      key={item?.path}
-                      className={`text-zinc-800 inline-flex items-center px-1 pt-1 text-sm ${
-                        isActiveLink(item?.path)
-                          ? "text-indigo-500 border-b-2 border-indigo-500"
-                          : "hover:text-indigo-500"
-                      }`}
-                    >
-                      {item?.name}
-                    </NavLink>
-                  );
-                })}
+              {navItems?.map((item) => {
+                // Скрыть пункт меню "Admin" если пользователь не администратор
+                if (
+                  item?.name === "Admin" &&
+                  (!user || user?.role !== "admin")
+                ) {
+                  return null;
+                }
+
+                return (
+                  <NavLink
+                    to={item?.path}
+                    key={item?.path}
+                    className={`text-zinc-800 inline-flex items-center px-1 pt-1 text-sm ${
+                      isActiveLink(item?.path)
+                        ? "text-indigo-500 border-b-2 border-indigo-500"
+                        : "hover:text-indigo-500"
+                    }`}
+                  >
+                    {item?.name}
+                    {item?.icon}
+                  </NavLink>
+                );
+              })}
             </div>
           </nav>
           {user && (

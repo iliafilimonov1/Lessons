@@ -9,6 +9,7 @@ import Forbidden from "../pages/Forbidden";
 import PrivateRoute from "../routes/PrivateRoute";
 import { useAuth } from "../hooks/useAuth";
 import Checkout from "../pages/Checkout";
+import Admin from "../pages/Admin";
 
 /** Массив роутов приложения */
 const routes = [
@@ -17,6 +18,10 @@ const routes = [
   { path: "cards/:alias", element: <PrivateRoute element={<CardDetails />} /> },
   { path: "cart", element: <PrivateRoute element={<Cart />} /> },
   { path: "/cart/checkout", element: <PrivateRoute element={<Checkout />} /> },
+  {
+    path: "admin",
+    element: <PrivateRoute element={<Admin />} requiredRole="admin" />,
+  },
   { path: "/forbidden", element: <Forbidden /> },
 ];
 

@@ -19,15 +19,23 @@
           "height": "95 cm",
           "depth": "80 cm"
         },
-        "materials": ["Fabric upholstery", "Wooden frame"],
+        "materials": [
+          "Fabric upholstery",
+          "Wooden frame"
+        ],
         "careInstructions": "Regularly vacuum or brush to remove dust. Clean with a damp cloth if necessary.",
-        "colors": ["Blue", "Gray", "Beige"]
+        "colors": [
+          "Blue",
+          "Gray",
+          "Beige"
+        ]
       },
       "rating": "4.7",
       "price": "79.99",
       "imgSrc": "../assets/products/product-1.avif",
       "isFavorite": true,
-      "cartQuantity": 1
+      "cartQuantity": 1,
+      "userId": "1"
     },
     {
       "id": "1",
@@ -48,15 +56,24 @@
           "length": "200 cm",
           "height": "100 cm"
         },
-        "materials": ["Particleboard", "Fiberboard", "Solid wood"],
+        "materials": [
+          "Particleboard",
+          "Fiberboard",
+          "Solid wood"
+        ],
         "careInstructions": "Wipe clean with a damp cloth. Use mild soap if necessary. Dry with a clean cloth.",
-        "colors": ["White", "Black", "Brown"]
+        "colors": [
+          "White",
+          "Black",
+          "Brown"
+        ]
       },
       "rating": "4.3",
       "price": "199.00",
       "imgSrc": "../assets/products/product-2.avif",
       "isFavorite": true,
-      "cartQuantity": 1
+      "cartQuantity": 1,
+      "userId": "2"
     },
     {
       "id": "2",
@@ -75,15 +92,20 @@
           "height": "75 cm",
           "depth": "35 cm"
         },
-        "materials": ["Solid pine"],
+        "materials": [
+          "Solid pine"
+        ],
         "careInstructions": "Wipe clean with a mild soapy solution. Wipe dry with a clean cloth.",
-        "colors": ["Natural wood"]
+        "colors": [
+          "Natural wood"
+        ]
       },
       "rating": "2.3",
       "price": "29.99",
       "imgSrc": "../assets/products/product-3.avif",
       "isFavorite": false,
-      "cartQuantity": 1
+      "cartQuantity": 1,
+      "userId": "1"
     },
     {
       "id": "3",
@@ -103,15 +125,22 @@
           "length": "200 cm",
           "height": "110 cm"
         },
-        "materials": ["Solid pine", "Fiberboard"],
+        "materials": [
+          "Solid pine",
+          "Fiberboard"
+        ],
         "careInstructions": "Wipe clean with a damp cloth. Wipe dry with a clean cloth.",
-        "colors": ["White stain", "Black-brown"]
+        "colors": [
+          "White stain",
+          "Black-brown"
+        ]
       },
       "rating": "3.8",
       "price": "249.00",
       "imgSrc": "../assets/products/product-4.avif",
       "isFavorite": false,
-      "cartQuantity": 1
+      "cartQuantity": 1,
+      "userId": "2"
     },
     {
       "id": "4",
@@ -130,15 +159,20 @@
           "height": "35 cm",
           "depth": "23 cm"
         },
-        "materials": ["Solid pine"],
+        "materials": [
+          "Solid pine"
+        ],
         "careInstructions": "Wipe clean with a mild soapy solution. Wipe dry with a clean cloth.",
-        "colors": ["Natural wood"]
+        "colors": [
+          "Natural wood"
+        ]
       },
       "rating": "1.0",
       "price": "24.99",
       "imgSrc": "../assets/products/product-5.avif",
       "isFavorite": false,
-      "cartQuantity": 1
+      "cartQuantity": 1,
+      "userId": "1"
     },
     {
       "id": "5",
@@ -157,15 +191,22 @@
           "length": "200 cm",
           "height": "47 cm"
         },
-        "materials": ["Particleboard", "Fiberboard"],
+        "materials": [
+          "Particleboard",
+          "Fiberboard"
+        ],
         "careInstructions": "Wipe clean with a damp cloth. Wipe dry with a clean cloth.",
-        "colors": ["White", "Black"]
+        "colors": [
+          "White",
+          "Black"
+        ]
       },
       "rating": "2.2",
       "price": "349.00",
       "imgSrc": "../assets/products/product-6.avif",
       "isFavorite": false,
-      "cartQuantity": 1
+      "cartQuantity": 1,
+      "userId": "2"
     },
     {
       "id": "6",
@@ -185,15 +226,22 @@
           "depth": "151 cm",
           "height": "66 cm"
         },
-        "materials": ["Particleboard", "Fiberboard"],
+        "materials": [
+          "Particleboard",
+          "Fiberboard"
+        ],
         "careInstructions": "Wipe clean with a damp cloth. Wipe dry with a clean cloth.",
-        "colors": ["Gray", "Dark gray"]
+        "colors": [
+          "Gray",
+          "Dark gray"
+        ]
       },
       "rating": "1.7",
       "price": "599.00",
       "imgSrc": "../assets/products/product-7.avif",
       "isFavorite": true,
-      "cartQuantity": 1
+      "cartQuantity": 1,
+      "userId": "1"
     },
     {
       "id": "7",
@@ -212,16 +260,34 @@
           "length": "160 cm",
           "height": "80 cm"
         },
-        "materials": ["Solid pine"],
+        "materials": [
+          "Solid pine"
+        ],
         "careInstructions": "Wipe clean with a mild soapy solution. Wipe dry with a clean cloth.",
-        "colors": ["White"]
+        "colors": [
+          "White"
+        ]
       },
       "rating": "3.0",
       "price": "129.00",
       "imgSrc": "../assets/products/product-8.avif",
       "isFavorite": false,
-      "cartQuantity": 1
+      "cartQuantity": 1,
+      "userId": "2"
     }
   ],
-  "users": []
+  "users": [
+    {
+      "login": "admin",
+      "password": "12345678",
+      "role": "admin",
+      "id": "1"
+    },
+    {
+      "login": "user",
+      "password": "12345678",
+      "role": "user",
+      "id": "2"
+    }
+  ]
 }

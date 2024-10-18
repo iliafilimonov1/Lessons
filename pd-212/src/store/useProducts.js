@@ -21,6 +21,8 @@ const useProducts = create((set, get) => {
 
       const data = await response?.json();
 
+      // в стейт помещать отфильтрованные товары по userId ?
+
       set({ products: data });
     } catch (error) {
       console.error("Error fetching products");
