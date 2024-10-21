@@ -7,6 +7,7 @@ import Image from "../Image/Image";
 import useDisclosure from "../../../hooks/useDisclosure";
 import { useAuth } from "../../../hooks/useAuth";
 import useProducts from "../../../store/useProducts";
+import useItems from "../../../store/useItems";
 
 /** Массив пунктов меню */
 const navItems = [
@@ -23,6 +24,9 @@ const Header = () => {
   // Достаем из стора общее кол-во добавленных товаров
   const { productsQuantity, getProducts } = useProducts();
   const cartCount = productsQuantity();
+
+  // Достаем данные из стора.
+  const { fetchItems } = useItems();
 
   // Кастомный хук для проверки данных пользователя, выхода
   const { user, onLogout } = useAuth();
@@ -50,6 +54,15 @@ const Header = () => {
 
     loadData();
   }, [getProducts]);
+
+  useEffect(() => {
+    const loadData = async () => {
+      // Ждем пока данные загрузятся
+      await fetchItems();
+    };
+
+    loadData();
+  }, [fetchItems]);
 
   /**
    * Определяет, активна ли ссылка.

@@ -16,9 +16,10 @@ const TableRow = ({ rowData, onDoubleClick }) => {
       className="flex flex-row cursor-pointer hover:bg-gray-200"
       onDoubleClick={() => onDoubleClick(rowData)}
     >
-      {rowKeys?.length > 0 && rowKeys?.map((key) => (
-        <TextCell key={crypto?.randomUUID()} value={rowData?.[key]} />
-      ))}
+      {rowKeys?.length > 0 &&
+        rowKeys?.map((key) => (
+          <TextCell key={crypto?.randomUUID()} value={rowData?.[key]} />
+        ))}
     </div>
   );
 };
