@@ -17,7 +17,13 @@ const PrivateRoute = ({ element, requiredRole }) => {
     return <div>Loading...</div>;
   }
 
-  if (!user && user?.role !== requiredRole) {
+  // Если пользователь не авторизован
+  if (!user) {
+    return <Navigate to="/forbidden" />;
+  }
+
+  // Если требуется определенная роль, и роль пользователя не совпадает
+  if (requiredRole && user.role !== requiredRole) {
     return <Navigate to="/forbidden" />;
   }
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Modal from "../Modal/Modal";
 import SignIn from "../../auth/SignIn/SignIn";
@@ -21,7 +21,7 @@ const navItems = [
  */
 const Header = () => {
   // Достаем из стора общее кол-во добавленных товаров
-  const { productsQuantity } = useProducts();
+  const { productsQuantity, getProducts } = useProducts();
   const cartCount = productsQuantity();
 
   // Кастомный хук для проверки данных пользователя, выхода
@@ -41,6 +41,15 @@ const Header = () => {
 
   // Хук для направления пользователя в корзину товаров
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const loadData = async () => {
+      // Ждем пока данные загрузятся
+      await getProducts();
+    };
+
+    loadData();
+  }, [getProducts]);
 
   /**
    * Определяет, активна ли ссылка.
@@ -77,32 +86,34 @@ const Header = () => {
                 alt="Logo"
               />
             </NavLink>
-            <div className="hidden sm:ml-8 sm:flex sm:space-x-8">
-              {navItems?.map((item) => {
-                // Скрыть пункт меню "Admin" если пользователь не администратор
-                if (
-                  item?.name === "Admin" &&
-                  (!user || user?.role !== "admin")
-                ) {
-                  return null;
-                }
+            {user && (
+              <div className="hidden sm:ml-8 sm:flex sm:space-x-8">
+                {navItems?.map((item) => {
+                  // Скрыть пункт меню "Admin" если пользователь не администратор
+                  if (
+                    item?.name === "Admin" &&
+                    (!user || user?.role !== "admin")
+                  ) {
+                    return null;
+                  }
 
-                return (
-                  <NavLink
-                    to={item?.path}
-                    key={item?.path}
-                    className={`text-zinc-800 inline-flex items-center px-1 pt-1 text-sm ${
-                      isActiveLink(item?.path)
-                        ? "text-indigo-500 border-b-2 border-indigo-500"
-                        : "hover:text-indigo-500"
-                    }`}
-                  >
-                    {item?.name}
-                    {item?.icon}
-                  </NavLink>
-                );
-              })}
-            </div>
+                  return (
+                    <NavLink
+                      to={item?.path}
+                      key={item?.path}
+                      className={`text-zinc-800 inline-flex items-center px-1 pt-1 text-sm ${
+                        isActiveLink(item?.path)
+                          ? "text-indigo-500 border-b-2 border-indigo-500"
+                          : "hover:text-indigo-500"
+                      }`}
+                    >
+                      {item?.name}
+                      {item?.icon}
+                    </NavLink>
+                  );
+                })}
+              </div>
+            )}
           </nav>
           {user && (
             <div className="flex items-center pr-2">

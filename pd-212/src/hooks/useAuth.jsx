@@ -31,19 +31,6 @@ export const AuthProvider = ({ children }) => {
   // Регистрация пользователя
   const onRegister = async (userData) => {
     try {
-      // const createResponse = await fetch("http://localhost:3000/users", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(userData),
-      // });
-
-      // if (!createResponse.ok) {
-      //   throw new Error("Ошибка регистрации пользователя");
-      // }
-
-      // const createdUser = await createResponse?.json();
       // Получение всех пользователей
       const response = await fetch("http://localhost:3000/users");
 
@@ -91,6 +78,7 @@ export const AuthProvider = ({ children }) => {
       localStorage?.setItem("authData", JSON?.stringify(authData));
 
       setUser(createdUser);
+      
       navigate("/home");
     } catch (error) {
       console.error("Ошибка при регистрации пользователя:", error);
@@ -102,9 +90,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const { login, password } = userData;
 
-      const response = await fetch(
-        `http://localhost:3000/users?login=${encodeURIComponent(login)}`
-      );
+      const response = await fetch(`http://localhost:3000/users?login=${encodeURIComponent(login)}`);
 
       if (!response.ok) {
         throw new Error("Ошибка при запросе на сервер");
@@ -125,6 +111,7 @@ export const AuthProvider = ({ children }) => {
           };
 
           localStorage?.setItem("authData", JSON?.stringify(authData));
+
           setUser(user);
           navigate("/home");
         } else {

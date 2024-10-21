@@ -21,8 +21,6 @@ const useProducts = create((set, get) => {
 
       const data = await response?.json();
 
-      // в стейт помещать отфильтрованные товары по userId ?
-
       set({ products: data });
     } catch (error) {
       console.error("Error fetching products");
@@ -35,13 +33,22 @@ const useProducts = create((set, get) => {
    * @returns {void}
    */
   const addToCart = (product) => {
-    const updatedCart = [...get().cart, { ...product }];
+    // Получаем текущее состояние корзины или инициализируем пустой массив
+    const currentCart = get()?.cart || [];
 
-    localStorage?.setItem("cart", JSON?.stringify(updatedCart));
+    // Ищем товар в корзине по id
+    const existingProduct = currentCart?.find((item) => item?.id === product?.id);
 
-    set({ cart: updatedCart });
+    if (existingProduct) {
+      // Если товар уже в корзине, увеличиваем количество
+      existingProduct.cartQuantity += 1;
+    } else {
+      currentCart?.push({ ...product, cartQuantity: 1 });
+    }
 
-    console.log("Cart after set:", get().cart);
+    localStorage?.setItem("cart", JSON?.stringify(currentCart));
+
+    set({ cart: currentCart });
   };
 
   /**

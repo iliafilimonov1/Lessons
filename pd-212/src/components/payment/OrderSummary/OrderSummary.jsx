@@ -25,7 +25,7 @@ const OrderSummary = () => {
                       className="h-5 w-5"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
-                      fill="#d9d9d9"
+                      fill="#4B5563"
                       aria-hidden="true"
                     >
                       <path
