@@ -20,6 +20,38 @@ const useItems = create((set, get) => {
   };
 
   /**
+   * Функция для добавления нового товара.
+   * @param {Object} newItem - Объект с данными нового товара.
+   * @param {string} newItem.name - Название товара.
+   * @param {string} newItem.category - Категория товара.
+   * @param {number} newItem.price - Цена товара.
+   */
+  const addItem = async (newItem) => {
+    try {
+      const response = await fetch("http://localhost:3000/items", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newItem),
+      });
+
+      if (!response?.ok) {
+        throw new Error(`HTTP error! Status: ${response?.status}`);
+      }
+      const data = await response.json();
+
+      console.log("Added item:", data);
+
+      set((state) => ({
+        items: [...state.items, data],
+      }));
+    } catch (error) {
+      console.error("Error adding product:", error);
+    }
+  };
+
+  /**
    * Функция для обновления товара по id.
    *
    * @param {number} id - id товара, который необходимо обновить.
@@ -60,7 +92,8 @@ const useItems = create((set, get) => {
   return {
     items,
     fetchItems,
-    editItem
+    addItem,
+    editItem,
   };
 });
 
