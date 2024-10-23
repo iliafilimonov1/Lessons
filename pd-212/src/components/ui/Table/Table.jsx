@@ -13,15 +13,18 @@ const Table = ({ data, headers, onRowDoubleClick }) => {
   return (
     <div className="w-full">
       <div className="flex flex-row">
-        {headers?.length > 0 &&
-          headers?.map((header) => (
-            <div
-              key={header?.key}
-              className="leading-10 px-2 font-semibold bg-gray-300 flex items-center border border-gray-400 flex-grow w-2"
-            >
+        <RenderList
+          items={headers}
+          render={(header) => (
+            <div className="leading-10 px-2 text-base font-medium bg-gray-200 flex items-center border border-gray-300 flex-grow w-2">
               {header?.title}
             </div>
-          ))}
+          )}
+          keyExtractor={(header) => header?.key}
+          emptyState={
+            <div className="py-2 px-4 border">Заголовки отсутствуют.</div>
+          }
+        />
       </div>
       <RenderList
         items={data}
@@ -29,7 +32,7 @@ const Table = ({ data, headers, onRowDoubleClick }) => {
           <TableRow onDoubleClick={onRowDoubleClick} rowData={dataInfo} />
         )}
         emptyState={
-          <div className="flex flex-row py-2 px-4  border">
+          <div className="flex justify-center py-2 px-4 border">
             Данные в таблице отсутствуют.
           </div>
         }
