@@ -278,15 +278,15 @@
   ],
   "items": [
     {
-      "name": "Новый товар 1",
-      "category": "Категория 1",
-      "price": "23445",
+      "name": "Poäng Armchair 123",
+      "category": "children's furniture",
+      "price": "199.00",
       "id": "8"
     },
     {
-      "name": "Новый товар 2",
-      "category": "Категория 2",
-      "price": "3333",
+      "name": "M123",
+      "category": "bench",
+      "price": "100",
       "id": "9"
     }
   ],
