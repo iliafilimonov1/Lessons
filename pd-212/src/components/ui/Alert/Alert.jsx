@@ -35,7 +35,7 @@ const alignClasses = {
 /**
  * Компонент уведомления.
  * @param {object} props - Свойства компонента.
- * @param {string} props.variant - Вариант компонента (info, warning, success, error).
+ * @param {string} props.variant - Вариант компонента (info, warning, success, error) (обязательный).
  * @param {string} [props.align="bottom-left"] - Позиционирование компонента.
  * @param {string} props.title - Заголовок компонента.
  * @param {string} props.subtitle - Подзаголовок компонента.
@@ -45,7 +45,7 @@ const alignClasses = {
  * @returns {JSX.Element} Элемент JSX.
  */
 const Alert = ({
-  variant = "info",
+  variant,
   isOpen,
   icon,
   title,

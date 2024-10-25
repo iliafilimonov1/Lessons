@@ -5,13 +5,17 @@ import useDisclosure from "../hooks/useDisclosure";
 import { Drawer } from "../components/ui/Drawer/Drawer";
 import useForm from "../hooks/useForm";
 import Alert from "../components/ui/Alert/Alert";
+// import Modal from "../components/ui/Modal/Modal";
 
 const Admin = () => {
   // Достаем данные из стора.
-  const { items, addItem, editItem } = useItems();
+  const { items, addItem, editItem, deleteItem } = useItems();
 
   // Drawer для чтения информации
   const itemDrawer = useDisclosure();
+
+  // Модалка подтверждения действий удаления товара
+  // const confirmModal = useDisclosure();
 
   // Стейт для скрытия/показа компонента Alert
   const [alertData, setAlertData] = useState({
@@ -22,19 +26,17 @@ const Admin = () => {
   });
 
   // Данные полученные при двойном клике на строку таблицы
-  const [selectedValue, setSelectedValue] = useState({
-    name: '',
-    category: 'chair',
-    price: ''
-  });
+  const [selectedValue, setSelectedValue] = useState(null);
 
   // Стейт для переключения режима редактирования
   const [isEditing, setIsEditing] = useState(false);
 
   // Обработка данных формы.
-  const { formValues, formErrors, resetForm, handleChange } = useForm(selectedValue);
-
-  console.log(formValues);
+  const { formValues, formErrors, resetForm, handleChange } = useForm({
+    name: "",
+    category: "",
+    price: "",
+  });
 
   /**
    * Обрабатывает двойной клик по строке таблицы.
@@ -58,8 +60,25 @@ const Admin = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
+    // Берем значения из формы
+    const { name, category, price } = formValues;
+
+    // Формируем новый объект с данными о товаре
+    const updatedItem = {
+      name: name || selectedValue?.name,
+      category: category || "chair",
+      price: price || selectedValue?.price,
+    };
+
     if (selectedValue) {
-      editItem(selectedValue?.id, { ...selectedValue, ...formValues });
+      // Редактируем существующий товар
+      editItem(selectedValue.id, { ...updatedItem });
+
+      // Закрываем Drawer
+      itemDrawer?.onClose();
+
+      // Сбрасываем состояние формы
+      resetForm();
 
       // Уведомляем пользователя об изменениях
       setAlertData({
@@ -68,14 +87,9 @@ const Admin = () => {
         variant: "neutral",
         isOpen: true,
       });
-
-      // Закрываем Drawer
-      itemDrawer?.onClose();
-
-      // Сбрасываем состояние формы
-      resetForm();
     } else {
-      addItem({ ...formValues });
+      // Добавляем новый товар
+      addItem(updatedItem);
 
       setAlertData({
         title: "Добавление товара.",
@@ -83,12 +97,40 @@ const Admin = () => {
         variant: "neutral",
         isOpen: true,
       });
+    }
+
+    // Закрываем Drawer
+    itemDrawer?.onClose();
+
+    // Сбрасываем состояние формы
+    resetForm();
+  };
+
+  /**
+   * Обрабаботка удаления товара.
+   *
+   * @returns {void}
+   */
+  const handleDeleteItem = () => {
+    if (selectedValue) {
+      deleteItem(selectedValue?.id);
+
+      // Сбрасываем режим редактирования
+      setIsEditing(false);
+
+      // Сбрасываем состояние формы
+      resetForm();
 
       // Закрываем Drawer
       itemDrawer?.onClose();
 
-      // Сбрасываем состояние формы
-      resetForm();
+      // Уведомляем пользователя об изменениях
+      setAlertData({
+        title: "Удаление товара.",
+        subtitle: "Товар был успешно удален.",
+        variant: "neutral",
+        isOpen: true,
+      });
     }
   };
 
@@ -159,10 +201,10 @@ const Admin = () => {
                 required
                 onChange={handleChange}
                 disabled={!isEditing}
-                defaultValue={formValues?.category || selectedValue?.category}
+                value={formValues?.category || selectedValue?.category}
                 className="h-10 px-4 block bg-white border-gray-300 w-full border rounded shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm disabled:border-gray-200 disabled:text-gray-400 disabled:bg-gray-100 disabled:cursor-not-allowed appearance-none"
               >
-                <option value="chair" >Chair</option>
+                <option value="chair">Chair</option>
                 <option value="bed">Bed</option>
                 <option value="bench">Bench</option>
                 <option value="children's furniture">
@@ -198,11 +240,16 @@ const Admin = () => {
             <div className="mb-4 flex justify-end">
               {!isEditing && selectedValue && (
                 <>
-                  <button className="flex-1 border-2 border-rose-500 bg-rose-500 text-white font-medium py-2 px-4 rounded">
+                  <button
+                    onClick={handleDeleteItem}
+                    type="button"
+                    className="flex-1 border-2 border-rose-500 bg-rose-500 text-white font-medium py-2 px-4 rounded"
+                  >
                     Delete
                   </button>
                   <button
                     onClick={() => setIsEditing(true)}
+                    type="button"
                     className="flex-1 ml-2 border-2 border-indigo-500 bg-indigo-500 text-white font-medium py-2 px-4 rounded"
                   >
                     Edit
@@ -233,6 +280,29 @@ const Admin = () => {
           }));
         }}
       />
+
+      {/* <Modal
+        isOpen={confirmModal?.isOpen}
+        onClose={confirmModal?.onClose}
+        title="Подтвердите действие"
+      >
+        <p className="text-gray-600 text-md mb-4">
+          Вы действительно хотите удалить товар ?
+        </p>
+
+        <div className="mb-4 flex justify-end">
+          <button
+            type="button"
+            onClick={confirmModal?.onClose}
+            className="border-2 border-rose-500 bg-rose-500 text-white font-medium py-2 px-4 rounded"
+          >
+            Cancel
+          </button>
+          <button className="ml-3 border-2 border-indigo-500 bg-indigo-500 text-white font-medium py-2 px-4 rounded">
+            Submit
+          </button>
+        </div>
+      </Modal> */}
     </section>
   );
 };

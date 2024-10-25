@@ -11,8 +11,6 @@ const useItems = create((set, get) => {
 
       const data = await response?.json();
 
-      console.log("Fetched items:", data);
-
       set({ items: data });
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -41,8 +39,6 @@ const useItems = create((set, get) => {
       }
       const data = await response.json();
 
-      console.log("Added item:", data);
-
       set((state) => ({
         items: [...state.items, data],
       }));
@@ -60,7 +56,6 @@ const useItems = create((set, get) => {
    * @throws {Error} - Выбрасывает ошибку, если HTTP-запрос завершился неудачей.
    */
   const editItem = async (id, updatedItem) => {
-    console.log(updatedItem);
     try {
       const response = await fetch(`http://localhost:3000/items/${id}`, {
         method: "PUT",
@@ -89,11 +84,37 @@ const useItems = create((set, get) => {
     }
   };
 
+  /**
+   * Удаляет товар по id.
+   *
+   * @param {number} id - id товара, который необходимо удалить.
+   * @returns {Promise<void>} - Промис.
+   * @throws {Error} - Выбрасывает ошибку, если HTTP-запрос завершился неудачей.
+   */
+  const deleteItem = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:3000/items/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!response?.ok) {
+        throw new Error(`HTTP error! Status: ${response?.status}`);
+      }
+
+      set((state) => ({
+        items: state?.items?.filter((item) => item?.id !== id),
+      }));
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  };
+
   return {
     items,
     fetchItems,
     addItem,
     editItem,
+    deleteItem
   };
 });
 
