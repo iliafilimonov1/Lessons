@@ -4,13 +4,12 @@ import { LiaTimesSolid } from "react-icons/lia";
 
 /**
  * Компонент выдвигающейся панели.
- *
  * @param {Object} props - Свойства компонента.
- * @param {boolean} props.isOpen - Компонент открыт или закрыт.
+ * @param {boolean} props.isOpen - Компонент открыт/закрыт.
  * @param {Function} props.onClose - Коллбек для закрытия компонента.
  * @param {string} [props.align="right"] - Позиционирование компонента.
- * @param {ReactNode} props.children - Дочерние элементы компонента.
- * @param {string} props.title - Заголовок компонента.
+ * @param {ReactNode} props.children - Дочерние элементы.
+ * @param {string} props.title -  Заголовок компонента.
  */
 export const Drawer = ({
   isOpen,
@@ -21,57 +20,38 @@ export const Drawer = ({
 }) => {
   const drawerRef = useRef(null);
 
-  /**
-   * Функция закрытия панели.
-   *
-   */
-  const closeDrawer = useCallback(() => {
-    onClose && onClose();
-  }, [onClose]);
-
-  /**
-   * Обработчик клика за пределами компонента для закрытия.
-   *
-   * @param {Event} event - Событие клика.
-   */
-  const handleClick = useCallback(
-    (event) => {
-      if (drawerRef?.current && !drawerRef?.current?.contains(event?.target)) {
-        closeDrawer();
-      }
-    },
-    [drawerRef, closeDrawer]
-  );
-
-  /**
-   * Обработчик закрытия компонента по нажатии клавиши Esc.
-   *
-   * @param {Event} event - Нажатие клавиши Esc.
-   */
-  const handleKeyPress = useCallback(
-    (event) => {
-      if (event?.key === "Escape") {
-        onClose();
-      }
-    },
-    [onClose]
-  );
-
-  /**
-   * Добавляет/удаляет обработчик клика за пределами компонента при его открытии/закрытии.
-   */
   useEffect(() => {
     if (isOpen) {
       document?.addEventListener("mousedown", handleClick);
-      // Добавляем слушатель события keydown (нажатие клавиши Esc)
       document?.addEventListener("keydown", handleKeyPress);
     }
     return () => {
       document?.removeEventListener("mousedown", handleClick);
-      // Удаляем слушатель события keydown
       document?.removeEventListener("keydown", handleKeyPress);
     };
-  }, [isOpen, handleClick, handleKeyPress]);
+  }, [isOpen]);
+
+  // Функция закрытия
+  const closeDrawer = useCallback(() => {
+    onClose && onClose();
+  }, [onClose]);
+
+  // Обработчик клика за пределами компонента
+  const handleClick = (event) => {
+    // Проверяем, находится ли фокус на модальном окне
+    if (drawerRef?.current && !drawerRef?.current?.contains(event?.target)) {
+      // Закрываем Drawer, если Modal не открыт (WIP)
+      if (!document?.querySelector(".modal")) {
+        onClose();
+      }
+    }
+  };
+
+  const handleKeyPress = (event) => {
+    if (event?.key === "Escape" && !document?.querySelector(".modal")) {
+      onClose();
+    }
+  };
 
   return (
     isOpen &&
