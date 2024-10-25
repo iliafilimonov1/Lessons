@@ -5,25 +5,30 @@ import { useState } from "react";
  */
 const useDisclosure = () => {
   // Состояние открытости/закрытости компонента
-  const [isOpen, setIsOPpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   /**
    * Функция для открытия компонента
    * @returns {void}
    */
-  const onOpen = () => setIsOPpen(true);
+  const onOpen = () => setIsOpen(true);
 
   /**
    * Функция для закрытия компонента
    * @returns {void}
    */
-  const onClose = () => setIsOPpen(false);
+  const onClose = (event) => {
+    debugger
+    event?.stopPropagation();
+
+    setIsOpen(false);
+  };
 
   /**
    * Функция переключения состояния компонента
    * @returns {void}
    */
-  const onToggle = () => setIsOPpen((prevState) => !prevState);
+  const onToggle = () => setIsOpen((prevState) => !prevState);
 
   return { isOpen, onOpen, onClose, onToggle };
 };

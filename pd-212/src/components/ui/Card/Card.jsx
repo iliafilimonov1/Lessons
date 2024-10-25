@@ -36,7 +36,7 @@ const Card = (props) => {
           </div>
         )}
         <button
-          className={`absolute top-0 left-0 m-2 p-2 rounded-full z-0 ${
+          className={`absolute top-0 left-0 m-2 p-2 rounded-full ${
             isFavorite ? "text-indigo-500" : "text-white"
           }`}
         >

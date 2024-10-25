@@ -87,7 +87,7 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-white shadow fixed top-0 left-0 right-0 z-10">
+    <header className="bg-white shadow fixed top-0 left-0 right-0 z-3">
       <div className="max-w-7xl mx-auto px-2">
         <div className="relative flex justify-between h-16">
           <nav className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">

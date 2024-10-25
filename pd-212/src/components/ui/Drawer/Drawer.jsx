@@ -76,12 +76,12 @@ export const Drawer = ({
   return (
     isOpen &&
     createPortal(
-      <div className="absolute z-20 top-0 left-0 right-0 bottom-0 bg-opacity-70 bg-black">
+      <div className="absolute z-3 top-0 left-0 right-0 bottom-0 bg-opacity-70 bg-black">
         <aside
           ref={drawerRef}
           className={`fixed top-0 bottom-0 ${
             align === "right" ? "right-0" : "left-0"
-          } right-0 z-20 w-2/6 p-8 bg-white transition-transform duration-300 ease-in-out`}
+          } right-0 z-3 w-2/6 p-8 bg-white transition-transform duration-300 ease-in-out`}
         >
           <header className="flex justify-between mb-4">
             {title && <h2 className="text-3xl font-bold mb-8">{title}</h2>}

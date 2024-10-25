@@ -5,7 +5,7 @@ import useDisclosure from "../hooks/useDisclosure";
 import { Drawer } from "../components/ui/Drawer/Drawer";
 import useForm from "../hooks/useForm";
 import Alert from "../components/ui/Alert/Alert";
-// import Modal from "../components/ui/Modal/Modal";
+import Modal from "../components/ui/Modal/Modal";
 
 const Admin = () => {
   // Достаем данные из стора.
@@ -15,7 +15,7 @@ const Admin = () => {
   const itemDrawer = useDisclosure();
 
   // Модалка подтверждения действий удаления товара
-  // const confirmModal = useDisclosure();
+  const confirmModal = useDisclosure();
 
   // Стейт для скрытия/показа компонента Alert
   const [alertData, setAlertData] = useState({
@@ -120,6 +120,9 @@ const Admin = () => {
 
       // Сбрасываем состояние формы
       resetForm();
+
+      // Закрываем confirm Modal
+      confirmModal?.onClose();
 
       // Закрываем Drawer
       itemDrawer?.onClose();
@@ -241,8 +244,9 @@ const Admin = () => {
               {!isEditing && selectedValue && (
                 <>
                   <button
-                    onClick={handleDeleteItem}
+                    
                     type="button"
+                    onClick={confirmModal?.onOpen}
                     className="flex-1 border-2 border-rose-500 bg-rose-500 text-white font-medium py-2 px-4 rounded"
                   >
                     Delete
@@ -281,7 +285,7 @@ const Admin = () => {
         }}
       />
 
-      {/* <Modal
+      <Modal
         isOpen={confirmModal?.isOpen}
         onClose={confirmModal?.onClose}
         title="Подтвердите действие"
@@ -298,11 +302,11 @@ const Admin = () => {
           >
             Cancel
           </button>
-          <button className="ml-3 border-2 border-indigo-500 bg-indigo-500 text-white font-medium py-2 px-4 rounded">
+          <button onClick={handleDeleteItem} className="ml-3 border-2 border-indigo-500 bg-indigo-500 text-white font-medium py-2 px-4 rounded">
             Submit
           </button>
         </div>
-      </Modal> */}
+      </Modal>
     </section>
   );
 };
