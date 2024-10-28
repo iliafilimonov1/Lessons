@@ -6,13 +6,13 @@ const OrderSummary = () => {
   const { cart } = useProducts();
 
   return (
-    <div className="w-2/5">
+    <div className="w-3/6">
       <h2 className="text-lg font-medium text-gray-900">Order summary</h2>
       <div className="mt-4 bg-white border  rounded-lg shadow-sm">
         <h3 className="sr-only">Items in your cart</h3>
         <ul role="list">
           {cart?.length > 0 && (
-            <div className="flex flex-col">
+            <div className="flex flex-col max-h-[485px] overflow-y-auto">
               {cart?.map((item) => (
                 <div
                   key={item?.id}

@@ -1,9 +1,9 @@
 //  Форма оплаты заказа
-const PaymenthtmlForm = () => {
+const PaymentForm = () => {
   // В дз необходимо обработать форму и вывести данные в консоль
 
   return (
-    <form className="flex flex-col w-2/4">
+    <form className="flex flex-col w-2/5">
       <div>
         <h2 className="text-lg font-medium text-gray-900">
           Contact information
@@ -460,6 +460,6 @@ const PaymenthtmlForm = () => {
   );
 };
 
-PaymenthtmlForm.displayName = "PaymenthtmlForm";
+PaymentForm.displayName = "PaymentForm";
 
-export default PaymenthtmlForm;
+export default PaymentForm;
